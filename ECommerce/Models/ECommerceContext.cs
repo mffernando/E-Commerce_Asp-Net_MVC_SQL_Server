@@ -10,5 +10,7 @@ namespace ECommerce.Models
         {
 
         }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Departments> Departments { get; set; }
     }
 }
