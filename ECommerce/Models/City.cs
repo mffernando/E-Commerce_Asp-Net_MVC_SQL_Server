@@ -18,6 +18,7 @@ namespace ECommerce.Models
         //necessary to build the project (Build > Build Solution)
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Department")]
+        [Range(1, double.MaxValue, ErrorMessage = "Select a Department!")]
         public int DepartmentsId { get; set; }
 
         //relationship in DB between department and city

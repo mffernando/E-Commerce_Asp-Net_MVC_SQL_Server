@@ -39,7 +39,16 @@ namespace ECommerce.Controllers
         // GET: Cities/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentsId = new SelectList(db.Departments, "DepartmentsId", "Name");
+            //list Departments from DB
+            var dep = db.Departments.ToList();
+            dep.Add(new Departments{
+                DepartmentsId = 0,
+                Name = "[ Department Select ] " //[ ] first in the list
+            });
+
+            dep = dep.OrderBy(d => d.Name).ToList();
+
+            ViewBag.DepartmentsId = new SelectList(dep, "DepartmentsId", "Name");
             return View();
         }
 
@@ -57,8 +66,18 @@ namespace ECommerce.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DepartmentsId = new SelectList(db.Departments, "DepartmentsId", "Name", city.DepartmentsId);
-            return View(city);
+            //list Departments from DB
+            var dep = db.Departments.ToList();
+            dep.Add(new Departments
+            {
+                DepartmentsId = 0,
+                Name = "[ Department Select ] " //[ ] first in the list
+            });
+
+            dep = dep.OrderBy(d => d.Name).ToList();
+
+            ViewBag.DepartmentsId = new SelectList(dep, "DepartmentsId", "Name");
+            return View();
         }
 
         // GET: Cities/Edit/5
