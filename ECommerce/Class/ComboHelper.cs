@@ -20,12 +20,12 @@ namespace ECommerce.Class
                 Name = "[ Department Select ] " //[ ] first in the list
             });
 
-            dep = dep.OrderBy(d => d.Name).ToList();
+            return dep = dep.OrderBy(d => d.Name).ToList();
 } //end list
 
-public void Dispose()
-        {
-            db.Dispose();
+    public void Dispose()
+            {
+                db.Dispose();
+            }
         }
     }
-}

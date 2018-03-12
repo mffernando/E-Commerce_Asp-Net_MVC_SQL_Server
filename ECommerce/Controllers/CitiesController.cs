@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ECommerce.Class;
 using ECommerce.Models;
 
 namespace ECommerce.Controllers
@@ -39,7 +40,7 @@ namespace ECommerce.Controllers
         // GET: Cities/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentsId = new SelectList(dep, "DepartmentsId", "Name");
+            ViewBag.DepartmentsId = new SelectList(ComboHelper.GetDepartments(), "DepartmentsId", "Name");
             return View();
         }
 
@@ -57,17 +58,7 @@ namespace ECommerce.Controllers
                 return RedirectToAction("Index");
             }
 
-            //list Departments from DB
-            var dep = db.Departments.ToList();
-            dep.Add(new Departments
-            {
-                DepartmentsId = 0,
-                Name = "[ Department Select ] " //[ ] first in the list
-            });
-
-            dep = dep.OrderBy(d => d.Name).ToList();
-
-            ViewBag.DepartmentsId = new SelectList(dep, "DepartmentsId", "Name");
+            ViewBag.DepartmentsId = new SelectList(ComboHelper.GetDepartments(), "DepartmentsId", "Name");
             return View();
         }
 
@@ -83,7 +74,7 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DepartmentsId = new SelectList(db.Departments, "DepartmentsId", "Name", city.DepartmentsId);
+            ViewBag.DepartmentsId = new SelectList(ComboHelper.GetDepartments(), "DepartmentsId", "Name", city.DepartmentsId);
             return View(city);
         }
 
@@ -100,7 +91,7 @@ namespace ECommerce.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentsId = new SelectList(db.Departments, "DepartmentsId", "Name", city.DepartmentsId);
+            ViewBag.DepartmentsId = new SelectList(ComboHelper.GetDepartments(), "DepartmentsId", "Name", city.DepartmentsId);
             return View(city);
         }
 
