@@ -10,6 +10,7 @@ namespace ECommerce.Models
         [Key] //primary key
         [Display(Name = "Department")]
         public int DepartmentsId { get; set; }
+        [MaxLength(50, ErrorMessage = "Max 50 characters!")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Name")]
         [Index("Department_Name_Index", IsUnique = true)] // don't allow duplicate names
