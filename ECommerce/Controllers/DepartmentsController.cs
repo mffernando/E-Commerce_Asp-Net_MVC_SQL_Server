@@ -116,14 +116,15 @@ namespace ECommerce.Controllers
             {
                 if (ex.InnerException != null 
                     && ex.InnerException.InnerException != null
-                    && ex.InnerException.Message.Contains("REFERENCE")){
+                    && ex.InnerException.InnerException.Message.Contains("REFERENCE")){
                     ModelState.AddModelError(string.Empty, "Exclude registered cities before deleting the department!");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
-                throw;
+                //throw;
+                return View(departments);
             }
         }
 

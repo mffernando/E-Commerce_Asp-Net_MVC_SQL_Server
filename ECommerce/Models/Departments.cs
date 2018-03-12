@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerce.Models
 {
@@ -11,6 +12,7 @@ namespace ECommerce.Models
         public int DepartmentsId { get; set; }
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Name")]
+        [Index("Department_Name_Index", IsUnique = true)] // don't allow duplicate names
         public string Name { get; set; }
         //necessary to build the project (Build > Build Solution)
 
