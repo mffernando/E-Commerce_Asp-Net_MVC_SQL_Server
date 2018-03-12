@@ -57,9 +57,9 @@ namespace ECommerce.Controllers
 
                     if (ex.InnerException != null
                     && ex.InnerException.InnerException != null
-                    && ex.InnerException.InnerException.Message.Contains("_INDEX"))
+                    && ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
-                        ModelState.AddModelError(string.Empty, "{0} Already registered!");
+                        ModelState.AddModelError(string.Empty, "Already registered!");
                     }
                     else
                     {
@@ -98,8 +98,27 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(departments).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (System.Exception ex)
+                {
+
+                    if (ex.InnerException != null
+                    && ex.InnerException.InnerException != null
+                    && ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Already registered!");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                    //throw;
+                    return View(departments);
+                }
             }
             return View(departments);
         }
