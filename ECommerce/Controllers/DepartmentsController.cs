@@ -107,8 +107,24 @@ namespace ECommerce.Controllers
         {
             Departments departments = db.Departments.Find(id);
             db.Departments.Remove(departments);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (System.Exception ex)
+            {
+                if (ex.InnerException != null 
+                    && ex.InnerException.InnerException != null
+                    && ex.InnerException.Message.Contains("REFERENCE")){
+                    ModelState.AddModelError(string.Empty, "Exclude registered cities before deleting the department!");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                throw;
+            }
         }
 
         protected override void Dispose(bool disposing)
