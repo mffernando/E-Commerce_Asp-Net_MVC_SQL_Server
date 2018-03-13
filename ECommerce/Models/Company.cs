@@ -26,7 +26,7 @@ namespace ECommerce.Models
         [MaxLength(50, ErrorMessage = "Max 50 characters!")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Phone")]
-        [Index("Company_Name_Index", IsUnique = true)] // don't allow duplicate names
+        //[Index("Company_Name_Index", IsUnique = true)] // don't allow duplicate names
         [DataType(DataType.PhoneNumber)] //telephone validation
         public string Phone { get; set; }
 
@@ -45,7 +45,7 @@ namespace ECommerce.Models
         //necessary to build the project (Build > Build Solution)
 
         //relationship in DB
-        public virtual ICollection<Departments> Departments { get; set; }
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual Departments Departments { get; set; }
+        public virtual City Cities { get; set; }
     }
 }
