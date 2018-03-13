@@ -42,6 +42,16 @@ namespace ECommerce.Models
         [DataType(DataType.ImageUrl)] //imagem validation
         public string Logo { get; set; }
 
+        //Department ID
+        [Display(Name = "Department")]
+        [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
+        public int DepartmentsId { get; set; }
+
+        //City ID
+        [Display(Name = "City")]
+        [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
+        public int CityId { get; set; }
+
         //necessary to build the project (Build > Build Solution)
 
         //relationship in DB
