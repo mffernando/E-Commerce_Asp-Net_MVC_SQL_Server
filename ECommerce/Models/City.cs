@@ -21,7 +21,8 @@ namespace ECommerce.Models
         [Range(1, double.MaxValue, ErrorMessage = "Select a Department!")]
         public int DepartmentsId { get; set; }
 
-        //relationship in DB between department and city
+        //relationship in DB
         public virtual Departments Department { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }

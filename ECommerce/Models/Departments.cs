@@ -17,7 +17,8 @@ namespace ECommerce.Models
         public string Name { get; set; }
         //necessary to build the project (Build > Build Solution)
 
-        //relationship in DB between department and city
+        //relationship in DB
         public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }
