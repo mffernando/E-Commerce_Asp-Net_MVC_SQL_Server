@@ -15,6 +15,15 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
+        //list view cascade
+        //select a department and list cities specific from that department
+        public JsonResult GetCities(int DepId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var cities = db.Cities.Where(c => c.DepartmentsId == DepId);
+                return Json(cities);
+        }
+
         // GET: Companies
         public ActionResult Index()
         {
