@@ -61,10 +61,24 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CompanyId,Name,Phone,Address,Logo,DepartmentsId,CityId")] Company company)
+        public ActionResult Create(Company company)
         {
             if (ModelState.IsValid)
             {
+                //configuring the logo path
+                var pic = string.Empty;
+                var folder = "~/Content/Logos";
+
+                    if(company.LogoFile != null)
+                    {
+                    pic = FileHelper.PhotoUpload(company.LogoFile, folder);
+                    pic = string.Format("{0},{1}", folder, pic);
+                    //{0} = path (Content/Logos/)
+                    //{1} = archive name
+                    }
+
+                company.Logo = pic;
+
                 db.Companies.Add(company);
                 db.SaveChanges();
                 return RedirectToAction("Index");
