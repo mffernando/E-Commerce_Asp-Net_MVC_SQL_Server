@@ -67,13 +67,13 @@ namespace ECommerce.Controllers
             {
                 //configuring the logo path
                 var pic = string.Empty;
-                var folder = "~/Content/Logos";
+                var folder = "~/Content/Logos/";
 
                     if(company.LogoFile != null)
                     {
                     pic = FileHelper.PhotoUpload(company.LogoFile, folder);
-                    pic = string.Format("{0},{1}", folder, pic);
-                    //{0} = path (Content/Logos/)
+                    pic = string.Format("{0}{1}", folder, pic);
+                    //{0} = path (~/Content/Logos/)
                     //{1} = archive name
                     }
 
@@ -115,6 +115,20 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                //configuring the logo path
+                var pic = string.Empty;
+                var folder = "~/Content/Logos/";
+
+                if (company.LogoFile != null)
+                {
+                    pic = FileHelper.PhotoUpload(company.LogoFile, folder);
+                    pic = string.Format("{0}{1}", folder, pic);
+                    //{0} = path (~/Content/Logos/)
+                    //{1} = archive name
+                }
+
+                company.Logo = pic;
+
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

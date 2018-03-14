@@ -7,10 +7,11 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+<!--edit upload post imagem-->
+@using (Html.BeginForm("Edit", "Companies", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Company</h4>
         <hr />
@@ -41,11 +42,13 @@
             </div>
         </div>
 
+        <!--imagem upload-->
         <div class="form-group">
-            @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LogoFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                <span class="btn btn-default btn-file">
+                    @Html.TextBoxFor(mod => mod.LogoFile, new { type = "file" })
+                </span>
             </div>
         </div>
 
@@ -79,4 +82,33 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <!--Validation with JavaScript
+        to select a department and list cities specific from that department-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#DepartmentsId").change(function () {
+                $("#CityId").empty(); //if empty
+                $("#CityId").append('<option value="0">[Select a City]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCities")',
+                    dataType: 'json',
+                    data: { DepId: $("#DepartmentsId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityId").append('<option value="'
+                                + data.CityId + '">'
+                                + data.Name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Error: Not found cities!' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
 }
+

@@ -9,7 +9,7 @@ namespace ECommerce.Class
     public class FileHelper
     {
         //imagem upload
-        public static string PhotoUpload(HttpPostedFile file, string folder)
+        public static string PhotoUpload(HttpPostedFileBase file, string folder)
         {
             string path = string.Empty;
             string pic = string.Empty;
