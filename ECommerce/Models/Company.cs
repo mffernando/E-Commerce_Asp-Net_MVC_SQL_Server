@@ -42,6 +42,10 @@ namespace ECommerce.Models
         [DataType(DataType.ImageUrl)] //imagem validation
         public string Logo { get; set; }
 
+        //Company Logo File
+        [NotMapped] //don't include in DB
+        public HttpPostedFileBase LogoFile { get; set; }
+
         //Department ID
         [Display(Name = "Department")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name

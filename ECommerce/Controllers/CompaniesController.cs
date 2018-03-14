@@ -15,6 +15,8 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
+        //image upload
+
         //list view cascade
         //select a department and list cities specific from that department
         public JsonResult GetCities(int DepId)
