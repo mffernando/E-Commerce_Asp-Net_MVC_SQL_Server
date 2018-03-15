@@ -23,21 +23,21 @@ namespace ECommerce.Class
             //if true
             try
             {
-                //pic = Path.GetFileName(file.FileName);
-                //path = Path.Combine(HttpContext.Current.Server.MapPath(folder), pic);
-                path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
-                file.SaveAs(path);
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    file.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
+                if(file != null)
+                {                
+                    path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
+                    file.SaveAs(path);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                    }
                 }
                 return true;
             }
+            
             catch (Exception)
             {
-
                 return false;
             }
         }

@@ -65,24 +65,30 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                //configuring the logo path
-                var pic = string.Empty;
-                var folder = "~/Content/Logos/";
-
+                db.Companies.Add(company);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-
+                
                 if (company.LogoFile != null)
                 {
-                    FileHelper.PhotoUpload(company.LogoFile, folder, string.Format("{0}.jpg", company.CompanyId));
-                    pic = string.Format("{0}{1}.jpg", folder, pic, company.CompanyId);
+                    //configuring the logo path
+                    var pic = string.Empty;
+                    var folder = "~/Content/Logos/";
+                    //configuring the logo path
+                    var file = string.Format("{0}.jpg", company.CompanyId);
+
+                    var response = FileHelper.PhotoUpload(company.LogoFile, folder, file);
+                    if (response == true)
+                    {
+                        pic = string.Format("{0}{1}", folder, file);
+                        company.Logo = pic;
+                    }
                     //{0} = path (~/Content/Logos/)
                     //{1} = archive name
                 }
 
-                company.Logo = pic;
-                db.Companies.Add(company);
-
+                db.Entry(company).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
             ViewBag.CityId = new SelectList(ComboHelper.GetCities(), "CityId", "Name", company.CityId);
@@ -116,19 +122,26 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                //configuring the logo path
-                var pic = string.Empty;
-                var folder = "~/Content/Logos/";
 
                 if (company.LogoFile != null)
                 {
-                    pic = FileHelper.PhotoUpload(company.LogoFile, folder);
-                    pic = string.Format("{0}{1}", folder, pic);
+                    //configuring the logo path
+                    var pic = string.Empty;
+                    var folder = "~/Content/Logos/";
+                    var file = string.Format("{0}.jpg", company.CompanyId);
+
+                    var response = FileHelper.PhotoUpload(company.LogoFile, folder, file);
+                    if (response == true)
+                    {
+                        pic = string.Format("{0}{1}", folder, file);
+                        company.Logo = pic;
+                    }
+
                     //{0} = path (~/Content/Logos/)
                     //{1} = archive name
                 }
 
-                company.Logo = pic;
+                //company.Logo = pic;
 
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
