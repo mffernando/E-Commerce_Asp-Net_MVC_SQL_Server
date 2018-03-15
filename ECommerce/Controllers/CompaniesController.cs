@@ -69,19 +69,20 @@ namespace ECommerce.Controllers
                 var pic = string.Empty;
                 var folder = "~/Content/Logos/";
 
-                    if(company.LogoFile != null)
-                    {
-                    pic = FileHelper.PhotoUpload(company.LogoFile, folder);
-                    pic = string.Format("{0}{1}", folder, pic);
-                    //{0} = path (~/Content/Logos/)
-                    //{1} = archive name
-                    }
-
-                company.Logo = pic;
-
-                db.Companies.Add(company);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+
+                if (company.LogoFile != null)
+                {
+                    FileHelper.PhotoUpload(company.LogoFile, folder, string.Format("{0}.jpg", company.CompanyId));
+                    pic = string.Format("{0}{1}.jpg", folder, pic, company.CompanyId);
+                    //{0} = path (~/Content/Logos/)
+                    //{1} = archive name
+                }
+
+                company.Logo = pic;
+                db.Companies.Add(company);
+
             }
 
             ViewBag.CityId = new SelectList(ComboHelper.GetCities(), "CityId", "Name", company.CityId);
@@ -111,7 +112,7 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompanyId,Name,Phone,Address,Logo,DepartmentsId,CityId")] Company company)
+        public ActionResult Edit(Company company)
         {
             if (ModelState.IsValid)
             {

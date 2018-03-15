@@ -9,25 +9,37 @@ namespace ECommerce.Class
     public class FileHelper
     {
         //imagem upload
-        public static string PhotoUpload(HttpPostedFileBase file, string folder)
+        public static bool PhotoUpload(HttpPostedFileBase file, string folder, string name)
         {
             string path = string.Empty;
-            string pic = string.Empty;
+            //string pic = string.Empty;
 
-            if(file != null)
+            //verification if null or empty
+            if (file == null || string.IsNullOrEmpty(folder) || string.IsNullOrEmpty(name))
             {
-                pic = Path.GetFileName(file.FileName);
-                path = Path.Combine(HttpContext.Current.Server.MapPath(folder), pic);
+                return false;
+            }
+
+            //if true
+            try
+            {
+                //pic = Path.GetFileName(file.FileName);
+                //path = Path.Combine(HttpContext.Current.Server.MapPath(folder), pic);
+                path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
                 file.SaveAs(path);
-                
+
                 using (MemoryStream ms = new MemoryStream())
                 {
                     file.InputStream.CopyTo(ms);
                     byte[] array = ms.GetBuffer();
                 }
-
+                return true;
             }
-            return pic;
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
     }
 }
