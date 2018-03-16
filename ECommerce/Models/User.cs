@@ -7,44 +7,55 @@ using System.Web;
 
 namespace ECommerce.Models
 {
-    public class Company
+    public class User
     {
         //prop 2 times tab (auto)
         //Company ID
         [Key] //primary key
-        [Display(Name = "Company")]
-        public int CompanyId { get; set; }
+        [Display(Name = "User")]
+        public int UserId { get; set; }
 
-        //Company Name
+        //UserName (E-mail)
+        [MaxLength(250, ErrorMessage = "Max 250 characters!")]
+        [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
+        [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)] //e-mail validation
+        [Index("User_UserName_Index", IsUnique = true)] // don't allow duplicate names
+        public string UserName { get; set; }
+
+        //User First Name
         [MaxLength(50, ErrorMessage = "Max 50 characters!")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
-        [Display(Name = "Name")]
-        [Index("Company_Name_Index", IsUnique = true)] // don't allow duplicate names
-        public string Name { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
-        //Company Phone
+        //User Last Name
+        [MaxLength(50, ErrorMessage = "Max 50 characters!")]
+        [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        //User Phone
         [MaxLength(50, ErrorMessage = "Max 50 characters!")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Phone")]
-        //[Index("Company_Name_Index", IsUnique = true)] // don't allow duplicate names
         [DataType(DataType.PhoneNumber)] //telephone validation
         public string Phone { get; set; }
 
-        //Company Address
+        //User Address
         [MaxLength(100, ErrorMessage = "Max 100 characters!")]
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         [Display(Name = "Address")]
-        [DataType(DataType.PhoneNumber)] //telephone validation
         public string Address { get; set; }
 
-        //Company Logo
-        [Display(Name = "Logo")]
+        //User photo
+        [Display(Name = "Photo")]
         [DataType(DataType.ImageUrl)] //imagem validation
-        public string Logo { get; set; }
+        public string Photo { get; set; }
 
         //Company Logo File
         [NotMapped] //don't include in DB
-        public HttpPostedFileBase LogoFile { get; set; }
+        public HttpPostedFileBase PhotoFile { get; set; }
 
         //Department ID
         [Display(Name = "Department")]
@@ -56,11 +67,20 @@ namespace ECommerce.Models
         [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
         public int CityId { get; set; }
 
+        //Company ID
+        [Display(Name = "Company")]
+        [Required(ErrorMessage = "Required {0}!")] //required with error message // {0} field name
+        public int CompanyId { get; set; }
+
+        //Full name
+        [Display(Name = "User")]
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
+
         //necessary to build the project (Build > Build Solution)
 
         //relationship in DB
         public virtual Departments Departments { get; set; }
         public virtual City Cities { get; set; }
-        public virtual ICollection<User>Users { get; set; }
+        public virtual Company Companies { get; set; }
     }
 }
