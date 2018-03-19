@@ -37,7 +37,22 @@ namespace ECommerce.Class
             });
 
             return dep = dep.OrderBy(d => d.Name).ToList();
-} //end list
+            } //end list
+
+        //Ordening the Companies
+        public static List<Company> GetCompanies()
+        { //start list
+
+            //list Departments from DB
+            var comp = db.Companies.ToList();
+            comp.Add(new Company
+            {
+                CompanyId = 0,
+                Name = "[ Company Select ] " //[ ] first in the list
+            });
+
+            return comp = comp.OrderBy(c => c.Name).ToList();
+        } //end list
 
         public void Dispose()
             {

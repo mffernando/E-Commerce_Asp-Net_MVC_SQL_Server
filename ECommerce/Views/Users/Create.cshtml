@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>User</h4>
         <hr />
@@ -101,4 +101,32 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <!--Validation with JavaScript
+        to select a department and list cities specific from that department-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#DepartmentsId").change(function () {
+                $("#CityId").empty(); //if empty
+                $("#CityId").append('<option value="0">[Select a City]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCities")',
+                    dataType: 'json',
+                    data: { DepId: $("#DepartmentsId").val() },
+                    success: function (data) {
+                        $.each(data, function (i, data) {
+                            $("#CityId").append('<option value="'
+                                + data.CityId + '">'
+                                + data.Name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Error: Not found cities!' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
 }

@@ -73,6 +73,7 @@ namespace ECommerce.Models
         public int CompanyId { get; set; }
 
         //Full name
+        //It is not added in the DB "get" only
         [Display(Name = "User")]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 

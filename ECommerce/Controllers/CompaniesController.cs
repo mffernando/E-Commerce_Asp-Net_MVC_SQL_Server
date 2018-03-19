@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ECommerce.Class;
+using ECommerce.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using ECommerce.Class;
-using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
