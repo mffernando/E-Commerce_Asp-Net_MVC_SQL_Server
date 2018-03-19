@@ -56,12 +56,31 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,UserName,FirstName,LastName,Phone,Address,Photo,DepartmentsId,CityId,CompanyId")] User user)
+        public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
                 db.SaveChanges();
+
+                if (user.PhotoFile != null)
+                {
+                    //configuring the logo path
+                    var pic = string.Empty;
+                    var folder = "~/Content/Users/";
+                    //configuring the logo path
+                    var file = string.Format("{0}.jpg", user.UserId);
+
+                    var response = FileHelper.PhotoUpload(user.PhotoFile, folder, file);
+                    if (response == true)
+                    {
+                        pic = string.Format("{0}{1}", folder, file);
+                        user.Photo = pic;
+                    }
+                    //{0} = path (~/Content/Users/)
+                    //{1} = archive name
+                }
+
                 return RedirectToAction("Index");
             }
 
