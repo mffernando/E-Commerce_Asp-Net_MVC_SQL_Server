@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using static ECommerce.Class.UserHelper;
 
 namespace ECommerce.Controllers
 {
@@ -63,6 +64,7 @@ namespace ECommerce.Controllers
 
                 db.Users.Add(user);
                 db.SaveChanges();
+                UsersHelper.CreateUserASP(user.UserName, "User");
 
                 if (user.PhotoFile != null)
                 {
@@ -137,6 +139,15 @@ namespace ECommerce.Controllers
                     //{0} = path (~/Content/Users/)
                     //{1} = archive name
                 }
+
+                var db2 = new ECommerceContext();
+                var currentÙser = db2.Users.Find(user.UserId);
+
+                if (currentÙser.UserName != user.UserName)
+                {
+                    UsersHelper.UpdateUserName(currentÙser.UserName, user.UserName);
+                }
+                db2.Dispose(); //finish db connection
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -170,6 +181,7 @@ namespace ECommerce.Controllers
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
+            UsersHelper.DeleteUser(user.UserName);
             return RedirectToAction("Index");
         }
 
